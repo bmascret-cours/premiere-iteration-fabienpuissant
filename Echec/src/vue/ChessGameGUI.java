@@ -34,8 +34,8 @@ public class ChessGameGUI extends javax.swing.JFrame implements java.awt.event.M
 	private ChessGameControllers chessGameController;
 	private int rows = 8;
 	private int column = 8;
-	
-	
+	private boolean is_piece_selected = false;
+	private Coord coord_selected = new Coord(0, 0);
 	
 	public ChessGameGUI(java.lang.String name, ChessGameControllers chessGameController, java.awt.Dimension boardSize) {
 	
@@ -53,30 +53,7 @@ public class ChessGameGUI extends javax.swing.JFrame implements java.awt.event.M
 		this.chessBoard.setPreferredSize( boardSize );
 		this.chessBoard.setBounds(0, 0, boardSize.width, boardSize.height);
 		
-		for (int i = 0; i < this.rows * this.column; i++) {
-		  JPanel square = new JPanel( new BorderLayout() );
-		  chessBoard.add( square );
-		 
-		  int row = (i / this.column) % 2;
-		  if (row == 0)
-		  square.setBackground( i % 2 == 0 ? Color.black : Color.white );
-		  else
-		  square.setBackground( i % 2 == 0 ? Color.white :  Color.black );
-		}
-		
-		
-		String pieceName;
-		Coord pieceCoord;
-		Couleur pieceColor;
-		for (int i = 0; i < ChessPiecePos.values().length; i++) {
-			pieceName = ChessPiecePos.values()[i].nom;
-			pieceColor = ChessPiecePos.values()[i].couleur;
-			for (int j = 0; j < (ChessPiecePos.values()[i].coords).length; j++) {
-				pieceCoord = ChessPiecePos.values()[i].coords[j];
-				this.displayPiece(pieceName, pieceColor, pieceCoord);
-			}
-			
-		}
+
 	
 	}
 	
@@ -98,19 +75,54 @@ public class ChessGameGUI extends javax.swing.JFrame implements java.awt.event.M
 	}
 	
 	
-	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
-		repaint();
+		this.chessBoard.removeAll();
+		this.chessBoard.updateUI();
+		
+		for (int i = 0; i < this.rows * this.column; i++) {
+			  JPanel square = new JPanel( new BorderLayout() );
+			  this.chessBoard.add( square );
+			 
+			  int row = (i / this.column) % 2;
+			  if (row == 0)
+			  square.setBackground( i % 2 == 0 ? Color.black : Color.white );
+			  else
+			  square.setBackground( i % 2 == 0 ? Color.white :  Color.black );
+		}
+		
+		
+		
+		ArrayList<PieceIHM> listPieces = (ArrayList<PieceIHM>) arg;
+		String pieceName;
+		Coord pieceCoord;
+		Couleur pieceColor;
+		for (int i = 0; i < listPieces.size(); i++) {
+			pieceName = listPieces.get(i).getTypePiece();
+			pieceColor = listPieces.get(i).getCouleur();
+			for (int j = 0; j < listPieces.get(i).getList().size(); j++) {
+				pieceCoord = listPieces.get(i).getList().get(j);
+				this.displayPiece(pieceName, pieceColor, pieceCoord);
+			}
+			
+		}
+
+	
 		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		System.out.println();
 		Coord point = getCoordFromClick(e.getX(), e.getY());
-		this.chessGameController.move(new Coord(0,0), new Coord(point.x, point.y));
+		if(!this.is_piece_selected) {
+			this.coord_selected = point;
+			this.is_piece_selected = true;
+		}
+		else {
+			this.chessGameController.move(this.coord_selected, new Coord(point.x, point.y));
+			this.is_piece_selected = false;
+		}
 		
 		
 		

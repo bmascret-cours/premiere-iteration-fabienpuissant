@@ -104,6 +104,7 @@ public class Jeu {
 	
 
 	public boolean isPawnPromotion(int xFinal, int yFinal) {
+		//Verifier coordonnées xFinal et yFinal
 		if(this.getPieceType(xFinal, yFinal) == "Pion") {
 			return true;
 		}

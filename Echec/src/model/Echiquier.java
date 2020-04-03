@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class Echiquier implements BoardGames {
 	}
 	
 	public java.util.List<PieceIHM> getPiecesIHM(){
-		List<PieceIHM> list = new LinkedList<PieceIHM>();
+		List<PieceIHM> list = new ArrayList<PieceIHM>();
 		List<PieceIHM> blacklist  = this.JeuBlanc.getPiecesIHM();
 		List<PieceIHM> whitelist = this.JeuNoir.getPiecesIHM();
 		
