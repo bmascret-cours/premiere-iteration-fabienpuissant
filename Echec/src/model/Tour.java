@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Tour extends AbstractPiece{
 	
 	public Tour(Couleur couleur_de_piece, Coord coord){
@@ -14,6 +17,26 @@ public class Tour extends AbstractPiece{
 			return true;
 		}
 		return false;
+	}
+	
+	public static List<Coord> getTrajectoire(int xInit, int yInit, int xFinal, int yFinal){
+		List<Coord> trajectoire = new ArrayList<Coord>();
+		
+		if(xInit != xFinal) {
+			int miniX = Math.min(xInit, xFinal);
+			int maxiX = Math.max(xInit, xFinal);
+			for(int i = miniX; i <= maxiX; i++) {
+				trajectoire.add(new Coord(i, yFinal));
+			}
+		}
+		else if (yInit != yFinal) {
+			int miniY = Math.min(yInit, yFinal);
+			int maxiY = Math.max(yInit, yFinal);
+			for(int i = miniY; i <= maxiY; i++) {
+				trajectoire.add(new Coord(xInit, i));
+			}
+		}
+		return trajectoire;
 	}
 	
 }

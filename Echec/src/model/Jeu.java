@@ -34,6 +34,10 @@ public class Jeu {
 		if(piece != null) {
 			//On récupère la pièece est on regarde si le move correspond à ses caractéristiques
 			if(piece.isMoveOK(xFinal, yFinal)) {
+				//Verifier si le déplacement est possible en fonction des autres pièces
+				if(isPieceHere(xFinal, yFinal)) {
+					this.capture(xFinal, yFinal);
+				}
 				return true;
 			}
 		}
@@ -55,6 +59,9 @@ public class Jeu {
 	}
 	
 	public boolean capture(int xCatch, int yCatch) {
+		Pieces piece = this.getPieceFromCoord(xCatch, yCatch);
+		piece.setX(-1);
+		piece.setY(-1);
 		return true;
 	}
 	

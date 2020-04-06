@@ -69,7 +69,6 @@ public class ChessGameCmdLine implements Observer{
 			}
 			st +="\n";
 		}
-		
 		System.out.println(st);		
 	}
 
@@ -78,10 +77,15 @@ public class ChessGameCmdLine implements Observer{
 		System.out.print("\n Déplacement de 3,6 vers 3,5 = ");
 		chessGameController.move(new Coord(0,0), new Coord(0, 5));	// true
 		
+		System.out.print("\n Déplacement de 8,8 vers 0,8 = ");
+		chessGameController.move(new Coord(6,2), new Coord(6, 1));	// true
+		
+		
 		
 
 		// dans ce cas, update non appelé et pas d'affichage 
 		// controleur empêche le move car pas le bon joueur
+		/*
 		System.out.print("\n Déplacement de 3,4 vers 3,6 = ");		
 		chessGameController.move(new Coord(3,4), new Coord(3, 6));	// false 
 
@@ -93,6 +97,7 @@ public class ChessGameCmdLine implements Observer{
 
 		System.out.print("\n Déplacement de 3,4 vers 4,3 = ");
 		chessGameController.move(new Coord(3, 4), new Coord(4, 3));	// true		
+		*/
 
 	}
 	

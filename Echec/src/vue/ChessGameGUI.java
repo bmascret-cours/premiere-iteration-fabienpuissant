@@ -117,10 +117,12 @@ public class ChessGameGUI extends javax.swing.JFrame implements java.awt.event.M
 		Coord point = getCoordFromClick(e.getX(), e.getY());
 		if(!this.is_piece_selected) {
 			this.coord_selected = point;
+			JPanel panel = (JPanel)this.chessBoard.getComponent(this.getComponentFromXY(point.x, point.y));
+			panel.setBackground(Color.gray);
 			this.is_piece_selected = true;
 		}
 		else {
-			this.chessGameController.move(this.coord_selected, new Coord(point.x, point.y));
+			this.chessGameController.move(this.coord_selected, point);
 			this.is_piece_selected = false;
 		}
 		

@@ -1,6 +1,7 @@
 package model.observable;
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -67,7 +68,6 @@ public class ChessGame extends Observable implements BoardGames{
 		if (ret){
 			echiquier.switchJoueur();
 		}		
-		
 		this.notifyObservers(echiquier.getPiecesIHM()); 
 		return ret;	
 	}
