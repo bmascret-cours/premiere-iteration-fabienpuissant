@@ -2,6 +2,7 @@ package vue;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -15,8 +16,10 @@ import java.util.Observable;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controller.ChessGameControllers;
@@ -47,12 +50,11 @@ public class ChessGameGUI extends javax.swing.JFrame implements java.awt.event.M
 		layeredPane.setPreferredSize(boardSize);
 		layeredPane.addMouseListener(this);
 		layeredPane.addMouseMotionListener(this);
-		  
 		layeredPane.add(this.chessBoard, JLayeredPane.DEFAULT_LAYER);
 		this.chessBoard.setLayout( new GridLayout(8, 8) );
 		this.chessBoard.setPreferredSize( boardSize );
 		this.chessBoard.setBounds(0, 0, boardSize.width, boardSize.height);
-		
+
 
 	
 	}
@@ -125,6 +127,10 @@ public class ChessGameGUI extends javax.swing.JFrame implements java.awt.event.M
 			this.chessGameController.move(this.coord_selected, point);
 			this.is_piece_selected = false;
 		}
+		
+		/*if(this.chessGameController.isEnd()) {
+			JOptionPane.showMessageDialog(this,"Fin du jeu");
+		}*/
 		
 		
 		

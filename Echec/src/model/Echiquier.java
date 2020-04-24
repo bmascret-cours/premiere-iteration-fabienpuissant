@@ -58,20 +58,24 @@ public class Echiquier implements BoardGames {
 			return false;
 		}
 		//test si les coordonnées finales sont valides
-		if(0 <= xFinal && xFinal <= 8 && 0 <= yFinal && yFinal <= 8) {
-			
-			if(xFinal == xInit && yFinal == yInit) {
+
+		if(xFinal == xInit && yFinal == yInit) {
+			return false;
+		}
+
+		//Test s'il n'y a pas une pièce sur la trajectoire
+		if(this.getPieceType(xInit, yInit).equals("Pion")) {
+			if(!checkPion(xInit, yInit, xFinal, yFinal)) {
 				return false;
 			}
 		}
-		//Test s'il n'y a pas une pièce sur la trajectoire
-		System.out.println(this.getPieceType(xInit, yInit));
-		List<Coord> pieces = this.getTrajectoire(this.getPieceType(xInit, yInit), xInit, yInit, xFinal, yFinal);
-		if(!this.checkTrajectoire(pieces)) {
-			//Si il a rencontré une pièce sur son chemin, on vérifie si la piece est de son jeu
-			return this.checkCapture(pieces);
+		else {
+			List<Coord> pieces = this.getTrajectoire(this.getPieceType(xInit, yInit), xInit, yInit, xFinal, yFinal);
+			if(!this.checkTrajectoire(pieces, xInit, yInit)) {
+				//Si il a rencontré une pièce sur son chemin, on vérifie si la piece est de son jeu
+				return this.checkCapture(pieces, xInit, yInit);
+			}
 		}
-			
 		return this.JeuCourant.isMoveOK(xInit, yInit, xFinal, yFinal);
 	}
 
@@ -83,7 +87,15 @@ public class Echiquier implements BoardGames {
 
 	@Override
 	public boolean isEnd() {
-		// TODO Auto-generated method stub
+		Coord kingCoord = this.JeuNonCourant.getKingCoord();
+		System.out.println(kingCoord.toString());
+		for (Pieces piece: this.JeuCourant.getPieces()) {
+			if(piece.isMoveOK(kingCoord.x, kingCoord.y)) {
+				System.out.println(piece.toString());
+				return true;
+			}
+		}
+		
 		return false;
 	}
 
@@ -120,15 +132,36 @@ public class Echiquier implements BoardGames {
 		return this.JeuCourant.getPieceType(x, y);
 	}
 	
-	private boolean checkTrajectoire(List<Coord> pieces) {
+	private boolean checkTrajectoire(List<Coord> pieces, int xInit, int yInit) {
 		for(Coord piece: pieces) {
 			if(this.JeuBlanc.isPieceHere(piece.x, piece.y) || this.JeuNoir.isPieceHere(piece.x, piece.y)) {
-				return false;
+				if(!(piece.x == xInit && piece.y == yInit)) {
+					return false;
+				}
+				
 			}
 		}
 		return true;
 	}
 	
+	
+	private boolean checkPion(int xInit, int yInit, int xFinal, int yFinal) {
+		//Gestion de la capture
+		if(Pion.moveCapture(xInit, yInit, xFinal, yFinal, this.JeuCourant.getCouleur())) {
+			if(this.JeuNonCourant.isPieceHere(xFinal, yFinal)) {
+					this.JeuNonCourant.capture(xFinal, yFinal);
+					return true;
+			}
+			return false;
+		}
+		//Si il n'y a pas de pièce devant lui il peut bouger
+		else if (this.JeuBlanc.getPieceFromCoord(xFinal, yFinal) != null
+				|| this.JeuNoir.getPieceFromCoord(xFinal, yFinal) != null) {
+			return false;
+		}
+		
+		return true;
+	}
 	
 	//Vérifie la trajectoire renvoie false si jamais il y a un pion dans la trajectoire
 	private List<Coord> getTrajectoire(String pieceType, int xInit, int yInit, int xFinal, int yFinal) {
@@ -148,23 +181,25 @@ public class Echiquier implements BoardGames {
 		else if(pieceType.equals("Cavalier")) {
 			pieces = Cavalier.getTrajectoire(xInit, yInit, xFinal, yFinal);
 		}
-		
-		System.out.println(pieces);
+
+	
 
 		return pieces;
 	}
 	
-	private boolean checkCapture(List<Coord> pieces) {
+	private boolean checkCapture(List<Coord> pieces, int xInit, int yInit) {
 		Coord pieceFound = null;
 		for(Coord piece: pieces) {
-			//Si c'est sa pièce on ne fait rien
-			if(this.JeuCourant.isPieceHere(piece.x, piece.y)) {
-				return false;
-			}
-			//Si c'est la pièce de quelq'un d'autre on capture
-			if(this.JeuNonCourant.isPieceHere(piece.x, piece.y)) {
-				this.JeuNonCourant.capture(piece.x, piece.y);
-				return true;
+			if(!(piece.x == xInit && piece.y == yInit)) {
+	
+				//Si c'est sa pièce on ne fait rien
+				if(this.JeuCourant.isPieceHere(piece.x, piece.y)) {
+					return false;
+				}
+				//Si c'est la pièce de quelqu'un d'autre on capture
+				if(this.JeuNonCourant.isPieceHere(piece.x, piece.y)) {
+					return this.JeuNonCourant.capture(piece.x, piece.y);
+				}
 			}
 		}
 		return false;

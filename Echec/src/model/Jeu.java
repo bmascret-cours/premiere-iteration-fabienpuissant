@@ -3,6 +3,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import tools.ChessPiecesFactory;
+import tools.ChessSinglePieceFactory;
 
 public class Jeu {
 	
@@ -34,16 +35,12 @@ public class Jeu {
 		if(piece != null) {
 			//On récupère la pièece est on regarde si le move correspond à ses caractéristiques
 			if(piece.isMoveOK(xFinal, yFinal)) {
-				//Verifier si le déplacement est possible en fonction des autres pièces
-				if(isPieceHere(xFinal, yFinal)) {
-					this.capture(xFinal, yFinal);
-				}
 				return true;
 			}
 		}
 		return false;
 	}
-	
+	 
 	public boolean move(int xInit, int yInit, int xFinal, int yFinal) {
 		if(this.isMoveOK(xInit, yInit, xFinal, yFinal)) {
 			Pieces piece = this.getPieceFromCoord(xInit, yInit);
@@ -121,8 +118,11 @@ public class Jeu {
 	public boolean pawnPromotion(int xFinal, int yFinal, java.lang.String type) {
 		if(this.isPawnPromotion(xFinal, yFinal)) {
 			Pieces piece = this.getPieceFromCoord(xFinal, yFinal);
-			piece = null;
-			//TODO Creer une piece avec le bon type
+			piece.setX(-1);
+			piece.setY(-1);
+			
+			Pieces newPiece = ChessSinglePieceFactory.newPiece(this.couleur, type, xFinal, yFinal);
+			this.pieces.add(newPiece);
 			return true;
 		}
 		return false;
@@ -131,11 +131,11 @@ public class Jeu {
 	public Coord getKingCoord() {
 		Coord coord = new Coord(0, 0);
 		for(int i = 0; i < this.pieces.size(); i++) {
-			if(this.pieces.get(i).getClass().getSimpleName() == "Roi") {
+			if(this.pieces.get(i).getClass().getSimpleName().equals("Roi")) {
 				coord.x = this.pieces.get(i).getX();
 				coord.y = this.pieces.get(i).getY();
 				
-			}
+			} 
 		}
 		return coord;
 	}
@@ -146,7 +146,7 @@ public class Jeu {
 	}
 	
 	//Modification par rapport à la doc : on retourne l'indice de la piece trouvée, si il n'y a pas de pièce, on retourne -1
-	private Pieces getPieceFromCoord(int x, int y) {
+	public Pieces getPieceFromCoord(int x, int y) {
 		for (int i = 0; i < this.pieces.size(); i++) {
 			if(pieces.get(i).getX() == x && pieces.get(i).getY() == y) {
 				return this.pieces.get(i);

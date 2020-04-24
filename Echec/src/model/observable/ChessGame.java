@@ -1,7 +1,6 @@
 package model.observable;
 
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -60,7 +59,9 @@ public class ChessGame extends Observable implements BoardGames{
 	 */
 	public boolean move (int xInit, int yInit, int xFinal, int yFinal){
 		boolean ret = false; 
-
+		if(this.isEnd()) {
+			return false;
+		}
 		ret = echiquier.isMoveOK(xInit, yInit, xFinal, yFinal);
 		if (ret){
 			ret = echiquier.move(xInit, yInit, xFinal, yFinal);
@@ -68,10 +69,10 @@ public class ChessGame extends Observable implements BoardGames{
 		if (ret){
 			echiquier.switchJoueur();
 		}		
+		
 		this.notifyObservers(echiquier.getPiecesIHM()); 
 		return ret;	
-	}
-
+	} 
 	public boolean isEnd(){
 		return echiquier.isEnd();		
 	}
