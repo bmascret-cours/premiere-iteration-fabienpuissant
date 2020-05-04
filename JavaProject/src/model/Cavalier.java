@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cavalier extends AbstractPiece{
 
 	public Cavalier(Couleur couleur, Coord coord) {
@@ -15,5 +18,12 @@ public class Cavalier extends AbstractPiece{
 		}
 		return false;
 	}
+	
+	public static List<Coord> getTrajectoire(int xInit, int yInit, int xFinal, int yFinal){
+		List<Coord> trajectoire = new ArrayList<Coord>();
+		trajectoire.add(new Coord(xFinal, yFinal));
+		return trajectoire;
+	}
+
 
 }

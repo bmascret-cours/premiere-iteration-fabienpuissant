@@ -20,7 +20,7 @@ public class Echiquier implements BoardGames {
 		this.JeuBlanc = new Jeu(Couleur.BLANC);
 		this.JeuNoir = new Jeu(Couleur.NOIR);
 		this.JeuCourant = this.JeuNoir;
-		this.JeuNonCourant = this.JeuNoir;
+		this.JeuNonCourant = this.JeuBlanc;
 	}
 	
 	public void switchJoueur() {
@@ -88,7 +88,6 @@ public class Echiquier implements BoardGames {
 	@Override
 	public boolean isEnd() {
 		Coord kingCoord = this.JeuNonCourant.getKingCoord();
-		System.out.println(kingCoord.toString());
 		for (Pieces piece: this.JeuCourant.getPieces()) {
 			if(piece.isMoveOK(kingCoord.x, kingCoord.y)) {
 				System.out.println(piece.toString());

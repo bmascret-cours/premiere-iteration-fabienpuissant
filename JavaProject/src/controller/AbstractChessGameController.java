@@ -1,4 +1,4 @@
-package controler;
+package controller;
 
 import model.Coord;
 import model.Couleur;
@@ -17,11 +17,11 @@ import model.observable.ChessGame;
  * les petites lignes étant implémentées dans les classes dérivées
  *
  */
-public abstract class AbstractChessGameControler implements ChessGameControlers {
+public abstract class AbstractChessGameController implements ChessGameControllers {
 
 	protected ChessGame chessGame;	 
 
-	public AbstractChessGameControler(ChessGame chessGame) {
+	public AbstractChessGameController(ChessGame chessGame) {
 		super();
 		this.chessGame = chessGame;	 
 	}
@@ -37,7 +37,6 @@ public abstract class AbstractChessGameControler implements ChessGameControlers 
 	final public boolean move(Coord initCoord, Coord finalCoord) {
 		boolean ret = false;
 		String promotionType = null; 
-
 		// si c'est bien au tour du joueur courant de jouer
 		if (this.isPlayerOK(initCoord)) {
 
@@ -64,7 +63,7 @@ public abstract class AbstractChessGameControler implements ChessGameControlers 
 
 	// Déplacement métier
 	protected  boolean moveModel(Coord initCoord, Coord finalCoord)  {	
-		return chessGame.move(initCoord.x, initCoord.y, finalCoord.x, finalCoord.y);	
+		return this.chessGame.move(initCoord.x, initCoord.y, finalCoord.x, finalCoord.y);	
 	}
 
 	protected abstract void endMove(Coord initCoord, Coord finalCoord, String promotionType) ;
@@ -75,7 +74,7 @@ public abstract class AbstractChessGameControler implements ChessGameControlers 
 	}
 
 	public String getMessage() {
-		String ret = null;		 
+		String ret = null;		  
 		ret = this.chessGame.getMessage();	 
 		return ret;
 	}
@@ -91,6 +90,7 @@ public abstract class AbstractChessGameControler implements ChessGameControlers 
 
 	protected Couleur getPieceColor(Coord initCoord){		
 		return this.chessGame.getPieceColor(initCoord.x, initCoord.y);		
-	}	
+	}
+	
 	
 }

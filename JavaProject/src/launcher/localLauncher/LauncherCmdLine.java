@@ -4,7 +4,7 @@ import java.util.Observer;
 
 import model.observable.ChessGame;
 import vue.ChessGameCmdLine;
-import controler.controlerLocal.ChessGameControler;
+import controller.controlerLocal.ChessGameController;
 
 
 /**
@@ -16,15 +16,15 @@ public class LauncherCmdLine {
 	public static void main(String[] args) {		
 		
 		ChessGame model;
-		ChessGameControler controler;	
+		ChessGameController controller;	
 		ChessGameCmdLine vue;
 		
 		model = new ChessGame();	
-		controler = new ChessGameControler(model);
+		controller = new ChessGameController(model);
 		
-		new ChessGameCmdLine(controler);	
+		new ChessGameCmdLine(controller);	
 		
-		vue = new ChessGameCmdLine(controler);
+		vue = new ChessGameCmdLine(controller);
 		model.addObserver((Observer) vue);
 		vue.go();
 	}

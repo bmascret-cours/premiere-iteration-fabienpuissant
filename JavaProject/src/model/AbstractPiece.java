@@ -63,10 +63,8 @@ public class AbstractPiece implements Pieces {
 		
 		Jeu jeu = new Jeu(Couleur.BLANC);
 		System.out.println(jeu.getPieces());
-		System.out.println(jeu.move(0, 7, 1, 5));
-		System.out.println(jeu.isPieceHere(0, 7));
-
-		
+		System.out.println(jeu.move(0, 7, 0, 5));
+	
 		
 	}
 

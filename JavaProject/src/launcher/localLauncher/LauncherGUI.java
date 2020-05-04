@@ -5,8 +5,9 @@ import java.util.Observer;
 
 import javax.swing.JFrame;
 
-import controler.ChessGameControlers;
-import controler.controlerLocal.ChessGameControler;
+import controller.ChessGameControllers;
+import controller.controlerLocal.ChessGameController;
+import model.Coord;
 import model.observable.ChessGame;
 import vue.ChessGameGUI;
 
@@ -27,16 +28,17 @@ public class LauncherGUI {
 	public static void main(String[] args) {
 
 		ChessGame chessGame;	
-		ChessGameControlers chessGameControler;
+		ChessGameControllers chessGameControler;
 		JFrame frame;	
 		Dimension dim;
 	
 		dim = new Dimension(700, 700);
 		
 		chessGame = new ChessGame();	
-		chessGameControler = new ChessGameControler(chessGame);
+		chessGameControler = new ChessGameController(chessGame);
 		
-		frame = new ChessGameGUI("Jeu d'Ã©chec", chessGameControler,  dim);
+		
+		frame = new ChessGameGUI("Jeu d'échec", chessGameControler,  dim);
 		chessGame.addObserver((Observer) frame);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -44,7 +44,7 @@ public class ChessGame extends Observable implements BoardGames{
 		st = echiquier.toString();	
 		return  st;
 	}
-
+	
 
 	/**
 	 * Permet de deplacer une piece connaissant ses coordonnees initiales vers ses
@@ -59,8 +59,7 @@ public class ChessGame extends Observable implements BoardGames{
 	 */
 	public boolean move (int xInit, int yInit, int xFinal, int yFinal){
 		boolean ret = false; 
-
-		ret = echiquier.isMoveOk(xInit, yInit, xFinal, yFinal);
+		ret = echiquier.isMoveOK(xInit, yInit, xFinal, yFinal);
 		if (ret){
 			ret = echiquier.move(xInit, yInit, xFinal, yFinal);
 		}
@@ -69,9 +68,14 @@ public class ChessGame extends Observable implements BoardGames{
 		}		
 		
 		this.notifyObservers(echiquier.getPiecesIHM()); 
+		
+		System.out.println(this.isEnd());
+		if(this.isEnd()) {
+			System.out.println("chess");
+		}
+		
 		return ret;	
-	}
-
+	} 
 	public boolean isEnd(){
 		return echiquier.isEnd();		
 	}

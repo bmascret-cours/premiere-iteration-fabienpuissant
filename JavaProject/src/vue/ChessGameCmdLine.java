@@ -7,7 +7,7 @@ import java.util.Observer;
 import model.Coord;
 import model.Couleur;
 import model.PieceIHM;
-import controler.controlerLocal.ChessGameControler;
+import controller.controlerLocal.ChessGameController;
 
 
 
@@ -20,10 +20,10 @@ import controler.controlerLocal.ChessGameControler;
  */
 public class ChessGameCmdLine implements Observer{
 
-	ChessGameControler chessGameControler;
+	ChessGameController chessGameController;
 
-	public   ChessGameCmdLine(ChessGameControler chessGameControler) {
-		this.chessGameControler = chessGameControler;
+	public   ChessGameCmdLine(ChessGameController chessGameControler) {
+		this.chessGameController = chessGameControler;
 	}
 
 	/* (non-Javadoc)
@@ -35,7 +35,7 @@ public class ChessGameCmdLine implements Observer{
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		
-		System.out.println(chessGameControler.getMessage() + "\n");	
+		System.out.println(chessGameController.getMessage() + "\n");	
 
 		List<PieceIHM> piecesIHM = (List<PieceIHM>) arg1;
 
@@ -56,7 +56,7 @@ public class ChessGameCmdLine implements Observer{
 		
 		// Affichage du tableau formatté
 		String st = "    0     1     2     3     4     5    6     7 \n";
-		for ( int i = 0; i < 8; i++) {
+		for ( int i = 0; i < 8; i++) { 
 			st += i + " ";
 			for ( int j = 0; j < 8; j++) {				 
 				String nomPiece = damier[i][j];				
@@ -69,29 +69,38 @@ public class ChessGameCmdLine implements Observer{
 			}
 			st +="\n";
 		}
-		
 		System.out.println(st);		
 	}
 
 	public void go() {
 
-		System.out.print("\n Déplacement de 3,6 vers 3,4 = ");
-		chessGameControler.move(new Coord(3,6), new Coord(3, 4));	// true
+		System.out.print("\n Déplacement de 3,6 vers 3,5 = ");
+		chessGameController.move(new Coord(0,0), new Coord(0, 5));	// true
+		
+		System.out.print("\n Déplacement de 8,8 vers 0,8 = ");
+		chessGameController.move(new Coord(6,2), new Coord(6, 1));	// true
+		
+		
+		
 
 		// dans ce cas, update non appelé et pas d'affichage 
 		// controleur empêche le move car pas le bon joueur
+		/*
 		System.out.print("\n Déplacement de 3,4 vers 3,6 = ");		
-		chessGameControler.move(new Coord(3,4), new Coord(3, 6));	// false 
+		chessGameController.move(new Coord(3,4), new Coord(3, 6));	// false 
 
 		System.out.print("\n Déplacement de 4,1 vers 4,3 = ");
-		chessGameControler.move(new Coord(4, 1), new Coord(4, 3));	// true
+		chessGameController.move(new Coord(4, 1), new Coord(4, 3));	// true
 
 		System.out.print("\n Déplacement de 3,4 vers 3,4 = ");
-		chessGameControler.move(new Coord(3, 4), new Coord(3, 4));	// false
+		chessGameController.move(new Coord(3, 4), new Coord(3, 4));	// false
 
 		System.out.print("\n Déplacement de 3,4 vers 4,3 = ");
-		chessGameControler.move(new Coord(3, 4), new Coord(4, 3));	// true		
+		chessGameController.move(new Coord(3, 4), new Coord(4, 3));	// true		
+		*/
 
 	}
+	
+	
 
 }
